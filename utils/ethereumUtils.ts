@@ -77,7 +77,7 @@ export async function getOnchainData(txHash: string): Promise<OnchainData> {
 		const provider = new ethers.BrowserProvider(window.ethereum);
 		const tx = await provider.getTransaction(txHash);
 		const receipt = await provider.getTransactionReceipt(txHash);
-		const block = await provider.getBlock(tx.blockNumber || 0);
+		const block = await provider.getBlock(tx?.blockNumber ?? 0);
 
 		if (!tx || !receipt || !block) {
 			throw new Error("Transaction data not found");
@@ -85,7 +85,7 @@ export async function getOnchainData(txHash: string): Promise<OnchainData> {
 
 		return {
 			transactionHash: tx.hash,
-			blockNumber: tx.blockNumber || 0,
+			blockNumber: tx.blockNumber ?? 0,
 			timestamp: block.timestamp,
 			from: tx.from,
 			to: tx.to || "",
